@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+/* Dark Theme (Default) */
 :root,
 [data-theme="dark"] {
   --bg-primary: #0f0f0f;
@@ -19,6 +20,7 @@
   --danger: #f87171;
 }
 
+/* Light Theme */
 [data-theme="light"] {
   --bg-primary: #f5f5f5;
   --bg-secondary: #ffffff;
@@ -31,6 +33,66 @@
   --success: #22c55e;
   --warning: #f59e0b;
   --danger: #ef4444;
+}
+
+/* Nord Theme */
+[data-theme="nord"] {
+  --bg-primary: #2e3440;
+  --bg-secondary: #3b4252;
+  --bg-widget: #434c5e;
+  --text-primary: #eceff4;
+  --text-secondary: #d8dee9;
+  --accent: #88c0d0;
+  --accent-hover: #8fbcbb;
+  --border: #4c566a;
+  --success: #a3be8c;
+  --warning: #ebcb8b;
+  --danger: #bf616a;
+}
+
+/* Dracula Theme */
+[data-theme="dracula"] {
+  --bg-primary: #282a36;
+  --bg-secondary: #1e1f29;
+  --bg-widget: #44475a;
+  --text-primary: #f8f8f2;
+  --text-secondary: #6272a4;
+  --accent: #bd93f9;
+  --accent-hover: #ff79c6;
+  --border: #44475a;
+  --success: #50fa7b;
+  --warning: #f1fa8c;
+  --danger: #ff5555;
+}
+
+/* Solarized Dark Theme */
+[data-theme="solarized"] {
+  --bg-primary: #002b36;
+  --bg-secondary: #073642;
+  --bg-widget: #073642;
+  --text-primary: #fdf6e3;
+  --text-secondary: #93a1a1;
+  --accent: #268bd2;
+  --accent-hover: #2aa198;
+  --border: #586e75;
+  --success: #859900;
+  --warning: #b58900;
+  --danger: #dc322f;
+}
+
+/* Forest Theme */
+[data-theme="forest"] {
+  --bg-primary: #1a2f1a;
+  --bg-secondary: #243524;
+  --bg-widget: #2d442d;
+  --text-primary: #e8f5e8;
+  --text-secondary: #a8c9a8;
+  --accent: #4caf50;
+  --accent-hover: #66bb6a;
+  --border: #3d5c3d;
+  --success: #81c784;
+  --warning: #ffb74d;
+  --danger: #e57373;
 }
 
 body {
