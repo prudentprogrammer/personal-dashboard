@@ -1,48 +1,18 @@
-import { useState, useEffect } from 'react'
 import Widget from './Widget'
+import { useClock } from '../hooks/useClock'
 import './ClockWidget.css'
 
 function ClockWidget() {
-  const [time, setTime] = useState(new Date())
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(new Date())
-    }, 1000)
-
-    return () => clearInterval(timer)
-  }, [])
-
-  const formatTime = (date) => {
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-    })
-  }
-
-  const formatDate = (date) => {
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-    })
-  }
-
-  const formatSeconds = (date) => {
-    return date.toLocaleTimeString('en-US', {
-      second: '2-digit',
-    }).slice(-2)
-  }
+  const { formattedTime, formattedDate, formattedSeconds } = useClock()
 
   return (
     <Widget title="Clock" size="medium">
       <div className="clock">
         <div className="clock__time">
-          {formatTime(time)}
-          <span className="clock__seconds">{formatSeconds(time)}</span>
+          {formattedTime}
+          <span className="clock__seconds">{formattedSeconds}</span>
         </div>
-        <div className="clock__date">{formatDate(time)}</div>
+        <div className="clock__date">{formattedDate}</div>
       </div>
     </Widget>
   )

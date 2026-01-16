@@ -1,54 +1,22 @@
 import { useState } from 'react'
 import Widget from './Widget'
+import { useTodos } from '../hooks/useTodos'
 import './TodoWidget.css'
 
-const initialTodos = [
-  { id: 1, text: 'Review pull requests', completed: false, priority: 'high' },
-  { id: 2, text: 'Update documentation', completed: false, priority: 'medium' },
-  { id: 3, text: 'Fix login bug', completed: true, priority: 'high' },
-  { id: 4, text: 'Write unit tests', completed: false, priority: 'low' },
-  { id: 5, text: 'Plan sprint goals', completed: false, priority: 'medium' },
-]
-
 function TodoWidget({ className = '' }) {
-  const [todos, setTodos] = useState(initialTodos)
+  const { todos, pendingCount, completedCount, addTodo, toggleTodo, deleteTodo } = useTodos()
   const [newTodo, setNewTodo] = useState('')
 
-  const toggleTodo = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    )
-  }
-
-  const addTodo = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    if (!newTodo.trim()) return
-
-    setTodos([
-      ...todos,
-      {
-        id: Date.now(),
-        text: newTodo.trim(),
-        completed: false,
-        priority: 'medium',
-      },
-    ])
+    addTodo(newTodo)
     setNewTodo('')
   }
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id))
-  }
-
-  const pendingCount = todos.filter((t) => !t.completed).length
-  const completedCount = todos.filter((t) => t.completed).length
 
   return (
     <Widget title="Todo" size="large" className={className}>
       <div className="todo">
-        <form className="todo__form" onSubmit={addTodo}>
+        <form className="todo__form" onSubmit={handleSubmit}>
           <input
             type="text"
             className="todo__input"
