@@ -62,7 +62,7 @@ function WeatherConfig({ onConfigure }) {
 }
 
 function WeatherWidget() {
-  const { weather, loading, error, weatherIcons, isConfigured, configure, unit, toggleUnit, convertTemp } = useWeather()
+  const { weather, loading, error, weatherIcons, getWeatherIconUrl, isConfigured, configure, unit, toggleUnit, convertTemp } = useWeather()
   const [showConfig, setShowConfig] = useState(false)
 
   if (loading) {
@@ -108,7 +108,15 @@ function WeatherWidget() {
           {error && <div className="weather__error">{error}</div>}
           <div className="weather__current">
             <div className="weather__icon">
-              {weatherIcons[weather.current.condition]}
+              {weather.current.iconCode ? (
+                <img
+                  src={getWeatherIconUrl(weather.current.iconCode)}
+                  alt={weather.current.condition}
+                  className="weather__icon-img"
+                />
+              ) : (
+                weatherIcons[weather.current.condition] || weatherIcons.default
+              )}
             </div>
             <div className="weather__temp">{convertTemp(weather.current.temp)}°</div>
             <div className="weather__details">
@@ -124,7 +132,15 @@ function WeatherWidget() {
               <div key={day.day} className="weather__forecast-day">
                 <span className="weather__forecast-label">{day.day}</span>
                 <span className="weather__forecast-icon">
-                  {weatherIcons[day.condition]}
+                  {day.iconCode ? (
+                    <img
+                      src={getWeatherIconUrl(day.iconCode)}
+                      alt={day.condition}
+                      className="weather__forecast-icon-img"
+                    />
+                  ) : (
+                    weatherIcons[day.condition] || weatherIcons.default
+                  )}
                 </span>
                 <span className="weather__forecast-temps">
                   <span className="weather__forecast-high">{convertTemp(day.high)}°</span>

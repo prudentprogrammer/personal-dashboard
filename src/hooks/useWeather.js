@@ -20,14 +20,21 @@ function fahrenheitToCelsius(f) {
 
 export const weatherIcons = {
   sunny: '☀️',
-  clear: '☀️',
+  clear: '🌙',
   cloudy: '☁️',
   partlyCloudy: '⛅',
   rainy: '🌧️',
   stormy: '⛈️',
-  snowy: '🌨️',
+  snowy: '❄️',
   foggy: '🌫️',
   mist: '🌫️',
+  default: '🌤️',
+}
+
+// OpenWeatherMap icon codes to icon URLs (higher quality)
+export const getWeatherIconUrl = (iconCode) => {
+  if (!iconCode) return null
+  return `https://openweathermap.org/img/wn/${iconCode}@2x.png`
 }
 
 // Map OpenWeatherMap condition codes to our icons
@@ -107,6 +114,7 @@ async function fetchFromOpenWeatherMap(apiKey, lat, lon) {
         high: Math.round(item.main.temp_max),
         low: Math.round(item.main.temp_min),
         condition: owmConditionMap[item.weather[0].icon] || 'cloudy',
+        iconCode: item.weather[0].icon,
         hour,
       })
     }
@@ -119,6 +127,7 @@ async function fetchFromOpenWeatherMap(apiKey, lat, lon) {
     current: {
       temp: Math.round(current.main.temp),
       condition: owmConditionMap[current.weather[0].icon] || 'cloudy',
+      iconCode: current.weather[0].icon,
       humidity: current.main.humidity,
       wind: Math.round(current.wind.speed),
       feelsLike: Math.round(current.main.feels_like),
@@ -210,6 +219,7 @@ export function useWeather() {
     loading,
     error,
     weatherIcons,
+    getWeatherIconUrl,
     isConfigured,
     configure,
     unit,
