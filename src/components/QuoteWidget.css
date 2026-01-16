@@ -1,50 +1,82 @@
-.quote {
+.quote-widget {
+  background: linear-gradient(135deg, rgba(var(--accent-rgb, 59, 130, 246), 0.15) 0%, transparent 60%);
+  border: 1px solid rgba(var(--accent-rgb, 59, 130, 246), 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1;
+  min-height: 150px;
+}
+
+.quote-widget__icon {
+  position: absolute;
+  top: -0.5rem;
+  right: 0.5rem;
+  font-size: 5rem;
+  font-family: Georgia, serif;
+  color: var(--accent);
+  opacity: 0.1;
+  line-height: 1;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.quote-widget:hover .quote-widget__icon {
+  transform: scale(1.1);
+}
+
+.quote-widget__content {
   position: relative;
+  z-index: 1;
   padding-right: 2rem;
 }
 
-.quote__text {
-  font-size: 0.9rem;
+.quote-widget__text {
+  font-size: 0.875rem;
   font-style: italic;
-  line-height: 1.6;
+  font-weight: 500;
+  line-height: 1.7;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-.quote__author {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+.quote-widget__author {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   font-style: normal;
 }
 
-.quote__refresh {
+.quote-widget__refresh {
   position: absolute;
-  top: 0;
-  right: 0;
+  bottom: 0.75rem;
+  right: 0.75rem;
   width: 28px;
   height: 28px;
   border: none;
   border-radius: 6px;
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
+  background-color: rgba(var(--accent-rgb, 59, 130, 246), 0.1);
+  color: var(--accent);
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
-.quote__refresh:hover:not(:disabled) {
-  background-color: var(--border);
-  color: var(--text-primary);
+.quote-widget__refresh:hover:not(:disabled) {
+  background-color: rgba(var(--accent-rgb, 59, 130, 246), 0.2);
+  transform: rotate(180deg);
 }
 
-.quote__refresh:disabled {
+.quote-widget__refresh:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

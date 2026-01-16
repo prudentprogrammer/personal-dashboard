@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import './App.css'
 import { useTheme } from './hooks/useTheme'
+import { useWeather } from './hooks/useWeather'
 import ClockWidget from './components/ClockWidget'
 import WeatherWidget from './components/WeatherWidget'
 import CalendarWidget from './components/CalendarWidget'
@@ -15,6 +16,7 @@ import GitHubWidget from './components/GitHubWidget'
 import SpotifyWidget from './components/SpotifyWidget'
 import MonarchWidget from './components/MonarchWidget'
 import CountdownWidget from './components/CountdownWidget'
+import StatCards from './components/StatCards'
 
 function ThemePicker({ currentTheme, themes, onSelect, isOpen, onToggle }) {
   return (
@@ -70,15 +72,119 @@ function useFullscreen() {
   return { isFullscreen, toggleFullscreen }
 }
 
+const NAME_KEY = 'dashboard-user-name'
+
+function useGreeting() {
+  const [name, setName] = useState(() => localStorage.getItem(NAME_KEY) || '')
+  const [time, setTime] = useState(new Date())
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(new Date()), 60000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const saveName = useCallback((newName) => {
+    setName(newName)
+    localStorage.setItem(NAME_KEY, newName)
+  }, [])
+
+  const greeting = useMemo(() => {
+    const hour = time.getHours()
+    if (hour < 12) return 'Good Morning'
+    if (hour < 17) return 'Good Afternoon'
+    return 'Good Evening'
+  }, [time])
+
+  const formattedDate = useMemo(() => {
+    return time.toLocaleDateString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    })
+  }, [time])
+
+  return { greeting, name, saveName, formattedDate }
+}
+
+function Greeting({ greeting, name, saveName, formattedDate, weather, weatherIcons, convertTemp, unit }) {
+  const [isEditing, setIsEditing] = useState(false)
+  const [editName, setEditName] = useState(name)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    saveName(editName)
+    setIsEditing(false)
+  }
+
+  return (
+    <div className="greeting">
+      <h1 className="greeting__title">
+        {greeting}{name ? `, ${name}` : ''}
+        <button
+          className="greeting__edit-btn"
+          onClick={() => {
+            setEditName(name)
+            setIsEditing(true)
+          }}
+          title={name ? "Edit your name" : "Set your name"}
+        >
+          {name ? '✎' : '+'}
+        </button>
+      </h1>
+      <p className="greeting__subtitle">
+        <span className="greeting__date">{formattedDate}</span>
+        {weather && (
+          <>
+            <span className="greeting__separator">•</span>
+            <span className="greeting__weather">
+              {weatherIcons[weather.current.condition]} {convertTemp(weather.current.temp)}°{unit}
+            </span>
+          </>
+        )}
+      </p>
+      {isEditing && (
+        <div className="greeting__edit-overlay" onClick={() => setIsEditing(false)}>
+          <form
+            className="greeting__edit-form"
+            onSubmit={handleSubmit}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              className="greeting__edit-input"
+              autoFocus
+            />
+            <button type="submit" className="greeting__edit-save">Save</button>
+          </form>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function App() {
   const { currentTheme, themes, setThemeById } = useTheme()
   const [isThemePickerOpen, setIsThemePickerOpen] = useState(false)
   const { isFullscreen, toggleFullscreen } = useFullscreen()
+  const { greeting, name, saveName, formattedDate } = useGreeting()
+  const { weather, weatherIcons, convertTemp, unit } = useWeather()
 
   return (
     <div className="dashboard">
       <header className="dashboard__header">
-        <h1 className="dashboard__title">Personal Dashboard</h1>
+        <Greeting
+          greeting={greeting}
+          name={name}
+          saveName={saveName}
+          formattedDate={formattedDate}
+          weather={weather}
+          weatherIcons={weatherIcons}
+          convertTemp={convertTemp}
+          unit={unit}
+        />
         <div className="dashboard__controls">
           <button
             className="dashboard__control-btn"
@@ -126,6 +232,8 @@ function App() {
 
         <CountdownWidget />
       </main>
+
+      <StatCards />
     </div>
   )
 }
