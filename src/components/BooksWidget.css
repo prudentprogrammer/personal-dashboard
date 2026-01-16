@@ -1,0 +1,145 @@
+.books {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.books__section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.books__section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.books__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+}
+
+.book-card {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  transition: background-color 0.15s ease;
+}
+
+.book-card:hover {
+  background-color: var(--border);
+}
+
+.book-card__cover {
+  width: 40px;
+  height: 56px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.book-card__cover-icon {
+  font-size: 1.25rem;
+  filter: grayscale(100%) brightness(200%);
+}
+
+.book-card__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.125rem;
+}
+
+.book-card__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-card__author {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.book-card__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+}
+
+.book-card__progress-bar {
+  height: 4px;
+  background-color: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.book-card__progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.book-card__progress-text {
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+}
+
+.book-card__finished {
+  font-size: 0.75rem;
+  color: var(--success);
+}
+
+.books__goal {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.books__goal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.375rem;
+}
+
+.books__goal-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.books__goal-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.books__goal-bar {
+  height: 6px;
+  background-color: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.books__goal-fill {
+  height: 100%;
+  background-color: var(--success);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
