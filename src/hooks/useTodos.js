@@ -1,8 +1,23 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { initialTodos } from '../data/mockData'
 
+const STORAGE_KEY = 'dashboard-todos'
+
+function loadTodos() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : initialTodos
+  } catch {
+    return initialTodos
+  }
+}
+
 export function useTodos() {
-  const [todos, setTodos] = useState(initialTodos)
+  const [todos, setTodos] = useState(loadTodos)
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+  }, [todos])
 
   const toggleTodo = useCallback((id) => {
     setTodos((prev) =>
