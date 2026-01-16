@@ -94,19 +94,29 @@ function GitHubWidget({ className = '' }) {
           </div>
 
           <div className="github__activity">
-            {data.recentActivity.slice(0, 3).map((activity) => (
-              <div key={activity.id} className="github__activity-item">
-                <span className="github__activity-icon">
-                  {activityIcons[activity.type] || '📌'}
-                </span>
-                <div className="github__activity-content">
-                  <span className="github__activity-message">{activity.message}</span>
-                  <span className="github__activity-meta">
-                    {activity.repo} • {activity.time}
-                  </span>
-                </div>
+            {data.noPublicActivity ? (
+              <div className="github__no-activity">
+                No recent public activity
               </div>
-            ))}
+            ) : data.recentActivity.length === 0 ? (
+              <div className="github__no-activity">
+                No recent activity
+              </div>
+            ) : (
+              data.recentActivity.slice(0, 3).map((activity) => (
+                <div key={activity.id} className="github__activity-item">
+                  <span className="github__activity-icon">
+                    {activityIcons[activity.type] || '📌'}
+                  </span>
+                  <div className="github__activity-content">
+                    <span className="github__activity-message">{activity.message}</span>
+                    <span className="github__activity-meta">
+                      {activity.repo} • {activity.time}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}

@@ -66,15 +66,19 @@ async function fetchFromOpenWeatherMap(apiKey, lat, lon) {
   const currentRes = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
   )
-  if (!currentRes.ok) throw new Error('Failed to fetch current weather')
   const current = await currentRes.json()
+  if (!currentRes.ok) {
+    throw new Error(current.message || 'Failed to fetch current weather')
+  }
 
   // Fetch 5-day forecast
   const forecastRes = await fetch(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
   )
-  if (!forecastRes.ok) throw new Error('Failed to fetch forecast')
   const forecastData = await forecastRes.json()
+  if (!forecastRes.ok) {
+    throw new Error(forecastData.message || 'Failed to fetch forecast')
+  }
 
   // Process forecast - get one entry per day (noon)
   const dailyMap = new Map()
@@ -156,11 +160,24 @@ export function useWeather() {
     return () => clearInterval(interval)
   }, [fetchWeather])
 
-  const configure = useCallback((apiKey, lat, lon) => {
+  const configure = useCallback(async (apiKey, lat, lon) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ apiKey, lat, lon }))
-    localStorage.removeItem(CACHE_KEY) // Clear cache to force refresh
-    fetchWeather()
-  }, [fetchWeather])
+    localStorage.removeItem(CACHE_KEY)
+    // Force immediate fetch bypassing cache
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await fetchFromOpenWeatherMap(apiKey, lat, lon)
+      setWeather(data)
+      setCache(data)
+      setIsConfigured(true)
+    } catch (err) {
+      setError(err.message)
+      setWeather(mockWeatherData)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   return {
     weather,

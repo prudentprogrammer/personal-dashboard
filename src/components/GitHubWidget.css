@@ -98,6 +98,13 @@
   color: var(--text-secondary);
 }
 
+.github__no-activity {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 1rem;
+}
+
 .github__error {
   font-size: 0.75rem;
   color: var(--danger);

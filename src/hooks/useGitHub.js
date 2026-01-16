@@ -115,8 +115,22 @@ function getEventMessage(event) {
 async function fetchFromGitHub(username) {
   // Fetch user events
   const eventsRes = await fetch(`https://api.github.com/users/${username}/events/public?per_page=10`)
-  if (!eventsRes.ok) throw new Error('Failed to fetch GitHub data')
   const events = await eventsRes.json()
+
+  if (!eventsRes.ok) {
+    throw new Error(events.message || 'Failed to fetch GitHub data')
+  }
+
+  // Handle empty events (user exists but no public activity)
+  if (!Array.isArray(events) || events.length === 0) {
+    return {
+      username,
+      contributions: { today: 0, thisWeek: 0, streak: 0 },
+      recentActivity: [],
+      contributionGraph: [0, 0, 0, 0, 0, 0, 0],
+      noPublicActivity: true,
+    }
+  }
 
   // Process events into activity
   const recentActivity = events.slice(0, 5).map((event, i) => ({
@@ -212,11 +226,23 @@ export function useGitHub() {
     return () => clearInterval(interval)
   }, [fetchData])
 
-  const configure = useCallback((username) => {
+  const configure = useCallback(async (username) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ username }))
     localStorage.removeItem(CACHE_KEY)
-    fetchData()
-  }, [fetchData])
+    // Force immediate fetch bypassing cache
+    setLoading(true)
+    setError(null)
+    try {
+      const result = await fetchFromGitHub(username)
+      setData(result)
+      setCache(result)
+      setIsConfigured(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   return {
     data,
