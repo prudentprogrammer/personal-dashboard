@@ -18,6 +18,26 @@
   color: var(--text-primary);
 }
 
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--bg-widget);
+  border: 1px solid var(--border);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent);
+}
+
 .dashboard__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
