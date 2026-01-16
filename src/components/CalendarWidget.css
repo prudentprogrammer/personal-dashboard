@@ -72,3 +72,82 @@
   color: var(--text-secondary);
   padding: 0.5rem;
 }
+
+.calendar--loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  color: var(--text-secondary);
+}
+
+.calendar__error {
+  font-size: 0.75rem;
+  color: var(--danger);
+  padding: 0.5rem;
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+/* Calendar Config Form */
+.calendar-config {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.calendar-config__hint {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  margin: 0;
+  font-weight: 500;
+}
+
+.calendar-config__instructions {
+  font-size: 0.7rem;
+  color: var(--text-muted, var(--text-secondary));
+  margin: 0;
+  line-height: 1.4;
+}
+
+.calendar-config__input {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.calendar-config__input::placeholder {
+  color: var(--text-muted, var(--text-secondary));
+}
+
+.calendar-config__input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow, rgba(99, 102, 241, 0.1));
+}
+
+.calendar-config__submit {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+  box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.3);
+}
+
+.calendar-config__submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+}
