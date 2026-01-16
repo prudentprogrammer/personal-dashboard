@@ -20,13 +20,38 @@
   min-height: 300px;
 }
 
+.widget__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
 .widget__title {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 1rem;
+}
+
+.widget__header-action {
+  display: flex;
+  align-items: center;
+}
+
+.widget__header-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.widget__header-btn:hover {
+  opacity: 1;
 }
 
 .widget__content {

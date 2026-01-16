@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
 import { useTheme } from './hooks/useTheme'
 import ClockWidget from './components/ClockWidget'
@@ -14,6 +14,7 @@ import NotesWidget from './components/NotesWidget'
 import GitHubWidget from './components/GitHubWidget'
 import SpotifyWidget from './components/SpotifyWidget'
 import MonarchWidget from './components/MonarchWidget'
+import CountdownWidget from './components/CountdownWidget'
 
 function ThemePicker({ currentTheme, themes, onSelect, isOpen, onToggle }) {
   return (
@@ -47,21 +48,53 @@ function ThemePicker({ currentTheme, themes, onSelect, isOpen, onToggle }) {
   )
 }
 
+function useFullscreen() {
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  useEffect(() => {
+    const handleChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener('fullscreenchange', handleChange)
+    return () => document.removeEventListener('fullscreenchange', handleChange)
+  }, [])
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+  }, [])
+
+  return { isFullscreen, toggleFullscreen }
+}
+
 function App() {
   const { currentTheme, themes, setThemeById } = useTheme()
   const [isThemePickerOpen, setIsThemePickerOpen] = useState(false)
+  const { isFullscreen, toggleFullscreen } = useFullscreen()
 
   return (
     <div className="dashboard">
       <header className="dashboard__header">
         <h1 className="dashboard__title">Personal Dashboard</h1>
-        <ThemePicker
-          currentTheme={currentTheme}
-          themes={themes}
-          onSelect={setThemeById}
-          isOpen={isThemePickerOpen}
-          onToggle={() => setIsThemePickerOpen(!isThemePickerOpen)}
-        />
+        <div className="dashboard__controls">
+          <button
+            className="dashboard__control-btn"
+            onClick={toggleFullscreen}
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          >
+            {isFullscreen ? '⊙' : '⛶'}
+          </button>
+          <ThemePicker
+            currentTheme={currentTheme}
+            themes={themes}
+            onSelect={setThemeById}
+            isOpen={isThemePickerOpen}
+            onToggle={() => setIsThemePickerOpen(!isThemePickerOpen)}
+          />
+        </div>
       </header>
 
       <main className="dashboard__grid">
@@ -90,6 +123,8 @@ function App() {
         <NotesWidget />
 
         <QuoteWidget />
+
+        <CountdownWidget />
       </main>
     </div>
   )
