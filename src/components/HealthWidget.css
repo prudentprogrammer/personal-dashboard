@@ -1,0 +1,59 @@
+.health {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  flex: 1;
+}
+
+.health__metric {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.health__metric-ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.health__metric-icon {
+  position: absolute;
+  font-size: 1.25rem;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring__background {
+  stroke: var(--border);
+}
+
+.progress-ring__progress {
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.health__metric-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.health__metric-value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.health__metric-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.health__metric-subtext {
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+}
