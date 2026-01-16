@@ -29,7 +29,7 @@ function GitHubConfig({ onConfigure }) {
 }
 
 function GitHubWidget({ className = '' }) {
-  const { data, loading, error, activityIcons, isConfigured, configure } = useGitHub()
+  const { data, loading, error, isConfigured, configure } = useGitHub()
   const [showConfig, setShowConfig] = useState(false)
 
   const maxContribution = Math.max(...data.contributionGraph, 1)
@@ -93,25 +93,23 @@ function GitHubWidget({ className = '' }) {
             ))}
           </div>
 
-          <div className="github__activity">
+          <div className="github__commits">
             {data.noPublicActivity ? (
               <div className="github__no-activity">
                 No recent public activity
               </div>
-            ) : data.recentActivity.length === 0 ? (
+            ) : data.recentCommits.length === 0 ? (
               <div className="github__no-activity">
-                No recent activity
+                No recent commits
               </div>
             ) : (
-              data.recentActivity.slice(0, 3).map((activity) => (
-                <div key={activity.id} className="github__activity-item">
-                  <span className="github__activity-icon">
-                    {activityIcons[activity.type] || '📌'}
-                  </span>
-                  <div className="github__activity-content">
-                    <span className="github__activity-message">{activity.message}</span>
-                    <span className="github__activity-meta">
-                      {activity.repo} • {activity.time}
+              data.recentCommits.slice(0, 4).map((commit) => (
+                <div key={commit.id} className="github__commit">
+                  <span className="github__commit-sha">{commit.sha}</span>
+                  <div className="github__commit-content">
+                    <span className="github__commit-message">{commit.message}</span>
+                    <span className="github__commit-meta">
+                      {commit.repo} • {commit.time}
                     </span>
                   </div>
                 </div>

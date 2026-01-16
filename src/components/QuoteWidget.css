@@ -1,52 +1,65 @@
 .quote-widget {
-  background: linear-gradient(135deg, rgba(var(--accent-rgb, 59, 130, 246), 0.15) 0%, transparent 60%);
-  border: 1px solid rgba(var(--accent-rgb, 59, 130, 246), 0.2);
-  border-radius: 12px;
-  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.12) 0%, rgba(var(--accent-rgb), 0.02) 60%, transparent 100%);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+  border-radius: 16px;
+  padding: 1.5rem;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 150px;
+  min-height: 160px;
+  transition: all 0.3s ease;
+}
+
+.quote-widget:hover {
+  border-color: rgba(var(--accent-rgb), 0.3);
+  box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.15);
 }
 
 .quote-widget__icon {
   position: absolute;
-  top: -0.5rem;
-  right: 0.5rem;
-  font-size: 5rem;
+  top: -0.25rem;
+  right: 0.75rem;
+  font-size: 6rem;
   font-family: Georgia, serif;
-  color: var(--accent);
-  opacity: 0.1;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.15;
   line-height: 1;
   pointer-events: none;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .quote-widget:hover .quote-widget__icon {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
+  opacity: 0.2;
 }
 
 .quote-widget__content {
   position: relative;
   z-index: 1;
-  padding-right: 2rem;
+  padding-right: 2.5rem;
 }
 
 .quote-widget__text {
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   font-style: italic;
   font-weight: 500;
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .quote-widget__author {
   font-size: 0.7rem;
   font-weight: 700;
-  color: var(--accent);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-style: normal;

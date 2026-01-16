@@ -12,10 +12,10 @@ const mockGitHubData = {
     thisWeek: 23,
     streak: 7,
   },
-  recentActivity: [
-    { id: 1, type: 'push', repo: 'personal-dashboard', message: 'Add new widgets', time: '2h ago' },
-    { id: 2, type: 'pr', repo: 'awesome-project', message: 'Fix authentication bug', time: '5h ago' },
-    { id: 3, type: 'push', repo: 'personal-dashboard', message: 'Update README', time: '1d ago' },
+  recentCommits: [
+    { id: 1, repo: 'personal-dashboard', message: 'Add new widgets', sha: 'abc1234', time: '2h ago' },
+    { id: 2, repo: 'awesome-project', message: 'Fix authentication bug', sha: 'def5678', time: '5h ago' },
+    { id: 3, repo: 'personal-dashboard', message: 'Update README', sha: 'ghi9012', time: '1d ago' },
   ],
   contributionGraph: [3, 5, 2, 7, 4, 6, 5],
 }
@@ -44,6 +44,11 @@ function getCache() {
     const stored = localStorage.getItem(CACHE_KEY)
     if (stored) {
       const { data, timestamp } = JSON.parse(stored)
+      // Invalidate old cache format that used recentActivity
+      if (data.recentActivity && !data.recentCommits) {
+        localStorage.removeItem(CACHE_KEY)
+        return null
+      }
       if (Date.now() - timestamp < CACHE_DURATION) {
         return data
       }
@@ -126,20 +131,30 @@ async function fetchFromGitHub(username) {
     return {
       username,
       contributions: { today: 0, thisWeek: 0, streak: 0 },
-      recentActivity: [],
+      recentCommits: [],
       contributionGraph: [0, 0, 0, 0, 0, 0, 0],
       noPublicActivity: true,
     }
   }
 
-  // Process events into activity
-  const recentActivity = events.slice(0, 5).map((event, i) => ({
-    id: event.id || i,
-    type: mapEventType(event),
-    repo: event.repo?.name?.split('/')[1] || event.repo?.name || 'unknown',
-    message: getEventMessage(event),
-    time: formatTimeAgo(event.created_at),
-  }))
+  // Extract commits from PushEvents
+  const allCommits = []
+  events.forEach((event) => {
+    if (event.type === 'PushEvent' && event.payload?.commits) {
+      const repo = event.repo?.name?.split('/')[1] || event.repo?.name || 'unknown'
+      event.payload.commits.forEach((commit) => {
+        allCommits.push({
+          id: commit.sha,
+          repo,
+          message: commit.message?.split('\n')[0] || 'No message',
+          sha: commit.sha?.substring(0, 7),
+          time: formatTimeAgo(event.created_at),
+        })
+      })
+    }
+  })
+  // Keep only the 5 most recent commits
+  const recentCommits = allCommits.slice(0, 5)
 
   // Count contributions by day (simplified - based on push events)
   const today = new Date()
@@ -175,7 +190,7 @@ async function fetchFromGitHub(username) {
       thisWeek: weekContribs,
       streak,
     },
-    recentActivity,
+    recentCommits,
     contributionGraph: last7Days,
   }
 }

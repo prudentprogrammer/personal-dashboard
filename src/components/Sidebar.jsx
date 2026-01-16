@@ -1,7 +1,7 @@
 import { MODES, modeConfig } from '../hooks/useDashboardMode'
 import './Sidebar.css'
 
-function Sidebar({ currentMode, onModeChange, userName }) {
+function Sidebar({ currentMode, onModeChange, isCollapsed, onToggleCollapse }) {
   const navItems = [
     { mode: MODES.HOME, ...modeConfig[MODES.HOME] },
     { mode: MODES.WORK, ...modeConfig[MODES.WORK] },
@@ -9,11 +9,16 @@ function Sidebar({ currentMode, onModeChange, userName }) {
   ]
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isCollapsed ? 'sidebar--collapsed' : ''}`}>
       <div className="sidebar__top">
         <div className="sidebar__brand">
-          <h1 className="sidebar__logo">Dashboard</h1>
-          <p className="sidebar__tagline">Personal Command Center</p>
+          {!isCollapsed && (
+            <>
+              <h1 className="sidebar__logo">Dashboard</h1>
+              <p className="sidebar__tagline">Command Center</p>
+            </>
+          )}
+          {isCollapsed && <span className="sidebar__logo-icon">📊</span>}
         </div>
 
         <nav className="sidebar__nav">
@@ -22,25 +27,22 @@ function Sidebar({ currentMode, onModeChange, userName }) {
               key={item.mode}
               className={`sidebar__nav-item ${currentMode === item.mode ? 'sidebar__nav-item--active' : ''}`}
               onClick={() => onModeChange(item.mode)}
+              title={isCollapsed ? item.name : undefined}
             >
               <span className="sidebar__nav-icon">{item.icon}</span>
-              <span className="sidebar__nav-text">{item.name}</span>
+              {!isCollapsed && <span className="sidebar__nav-text">{item.name}</span>}
             </button>
           ))}
         </nav>
       </div>
 
-      <div className="sidebar__bottom">
-        <div className="sidebar__user">
-          <div className="sidebar__avatar">
-            {userName ? userName.charAt(0).toUpperCase() : '?'}
-          </div>
-          <div className="sidebar__user-info">
-            <span className="sidebar__user-name">{userName || 'Guest'}</span>
-            <span className="sidebar__user-plan">Free Plan</span>
-          </div>
-        </div>
-      </div>
+      <button
+        className="sidebar__toggle"
+        onClick={onToggleCollapse}
+        title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      >
+        {isCollapsed ? '→' : '←'}
+      </button>
     </aside>
   )
 }

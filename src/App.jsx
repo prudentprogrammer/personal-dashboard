@@ -4,7 +4,6 @@ import { useTheme } from './hooks/useTheme'
 import { useWeather } from './hooks/useWeather'
 import { useDashboardMode } from './hooks/useDashboardMode'
 import Sidebar from './components/Sidebar'
-import ClockWidget from './components/ClockWidget'
 import WeatherWidget from './components/WeatherWidget'
 import CalendarWidget from './components/CalendarWidget'
 import TodoWidget from './components/TodoWidget'
@@ -18,7 +17,6 @@ import GitHubWidget from './components/GitHubWidget'
 import SpotifyWidget from './components/SpotifyWidget'
 import MonarchWidget from './components/MonarchWidget'
 import CountdownWidget from './components/CountdownWidget'
-import StatCards from './components/StatCards'
 
 function ThemePicker({ currentTheme, themes, onSelect, isOpen, onToggle }) {
   return (
@@ -81,7 +79,7 @@ function useGreeting() {
   const [time, setTime] = useState(new Date())
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 60000)
+    const interval = setInterval(() => setTime(new Date()), 1000)
     return () => clearInterval(interval)
   }, [])
 
@@ -105,10 +103,18 @@ function useGreeting() {
     })
   }, [time])
 
-  return { greeting, name, saveName, formattedDate }
+  const formattedTime = useMemo(() => {
+    return time.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    })
+  }, [time])
+
+  return { greeting, name, saveName, formattedDate, formattedTime }
 }
 
-function Greeting({ greeting, name, saveName, formattedDate, weather, weatherIcons, convertTemp, unit }) {
+function Greeting({ greeting, name, saveName, formattedDate, formattedTime, weather, weatherIcons, convertTemp, unit }) {
   const [isEditing, setIsEditing] = useState(false)
   const [editName, setEditName] = useState(name)
 
@@ -120,19 +126,22 @@ function Greeting({ greeting, name, saveName, formattedDate, weather, weatherIco
 
   return (
     <div className="greeting">
-      <h1 className="greeting__title">
-        {greeting}{name ? `, ${name}` : ''}
-        <button
-          className="greeting__edit-btn"
-          onClick={() => {
-            setEditName(name)
-            setIsEditing(true)
-          }}
-          title={name ? "Edit your name" : "Set your name"}
-        >
-          {name ? '✎' : '+'}
-        </button>
-      </h1>
+      <div className="greeting__top">
+        <h1 className="greeting__title">
+          {greeting}{name ? `, ${name}` : ''}
+          <button
+            className="greeting__edit-btn"
+            onClick={() => {
+              setEditName(name)
+              setIsEditing(true)
+            }}
+            title={name ? "Edit your name" : "Set your name"}
+          >
+            {name ? '✎' : '+'}
+          </button>
+        </h1>
+        <span className="greeting__time">{formattedTime}</span>
+      </div>
       <p className="greeting__subtitle">
         <span className="greeting__date">{formattedDate}</span>
         {weather && (
@@ -170,14 +179,20 @@ function Greeting({ greeting, name, saveName, formattedDate, weather, weatherIco
 function App() {
   const { currentTheme, themes, setThemeById } = useTheme()
   const [isThemePickerOpen, setIsThemePickerOpen] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
   const { isFullscreen, toggleFullscreen } = useFullscreen()
-  const { greeting, name, saveName, formattedDate } = useGreeting()
+  const { greeting, name, saveName, formattedDate, formattedTime } = useGreeting()
   const { weather, weatherIcons, convertTemp, unit } = useWeather()
   const { mode, setMode, isWidgetVisible } = useDashboardMode()
 
   return (
-    <div className="dashboard-layout">
-      <Sidebar currentMode={mode} onModeChange={setMode} userName={name} />
+    <div className={`dashboard-layout ${isSidebarCollapsed ? 'dashboard-layout--collapsed' : ''}`}>
+      <Sidebar
+        currentMode={mode}
+        onModeChange={setMode}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
       <div className="dashboard">
         <header className="dashboard__header">
@@ -186,6 +201,7 @@ function App() {
             name={name}
             saveName={saveName}
             formattedDate={formattedDate}
+            formattedTime={formattedTime}
             weather={weather}
             weatherIcons={weatherIcons}
             convertTemp={convertTemp}
@@ -210,7 +226,6 @@ function App() {
         </header>
 
         <main className="dashboard__grid">
-          {isWidgetVisible('clock') && <ClockWidget />}
           {isWidgetVisible('weather') && <WeatherWidget />}
           {isWidgetVisible('calendar') && <CalendarWidget className="grid-span-2" />}
           {isWidgetVisible('todo') && <TodoWidget className="grid-row-span-2" />}
@@ -225,8 +240,6 @@ function App() {
           {isWidgetVisible('quote') && <QuoteWidget />}
           {isWidgetVisible('countdown') && <CountdownWidget />}
         </main>
-
-        <StatCards />
       </div>
     </div>
   )

@@ -1,95 +1,118 @@
 .github {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.875rem;
   flex: 1;
 }
 
 .github__stats {
   display: flex;
   justify-content: space-around;
+  padding: 0.5rem 0;
 }
 
 .github__stat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.125rem;
+  gap: 0.25rem;
 }
 
 .github__stat-value {
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(135deg, var(--success) 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .github__stat-label {
   font-size: 0.7rem;
-  color: var(--text-secondary);
+  color: var(--text-muted, var(--text-secondary));
+  font-weight: 500;
 }
 
 .github__graph {
   display: flex;
   align-items: flex-end;
   gap: 0.375rem;
-  height: 40px;
+  height: 44px;
   padding: 0.5rem 0;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  padding: 0.5rem;
 }
 
 .github__graph-bar {
   flex: 1;
-  background-color: var(--success);
-  border-radius: 2px;
+  background: linear-gradient(180deg, var(--success) 0%, rgba(var(--success-rgb, 34, 197, 94), 0.6) 100%);
+  border-radius: 3px;
   min-height: 4px;
-  opacity: 0.8;
-  transition: opacity 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .github__graph-bar:hover {
-  opacity: 1;
+  filter: brightness(1.2);
+  transform: scaleY(1.05);
+  transform-origin: bottom;
 }
 
-.github__activity {
+.github__commits {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: 0.5rem;
   flex: 1;
   overflow-y: auto;
 }
 
-.github__activity-item {
+.github__commit {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.375rem;
-  border-radius: 6px;
-  transition: background-color 0.15s ease;
-}
-
-.github__activity-item:hover {
+  gap: 0.625rem;
+  padding: 0.5rem;
+  border-radius: 8px;
   background-color: var(--bg-secondary);
+  transition: all 0.2s ease;
 }
 
-.github__activity-icon {
-  font-size: 0.875rem;
+.github__commit:hover {
+  background-color: var(--bg-hover, var(--border));
+}
+
+.github__commit-sha {
+  font-size: 0.65rem;
+  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.15) 0%, rgba(var(--accent-rgb), 0.05) 100%);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  color: var(--accent);
   flex-shrink: 0;
+  font-weight: 600;
+  border: 1px solid rgba(var(--accent-rgb), 0.1);
 }
 
-.github__activity-content {
+.github__commit-content {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  gap: 0.125rem;
 }
 
-.github__activity-message {
+.github__commit-message {
   font-size: 0.8rem;
-  white-space: nowrap;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
-.github__activity-meta {
+.github__commit-meta {
   font-size: 0.7rem;
-  color: var(--text-secondary);
+  color: var(--text-muted, var(--text-secondary));
 }
 
 .github--loading {
