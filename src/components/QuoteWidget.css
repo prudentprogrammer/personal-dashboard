@@ -1,0 +1,50 @@
+.quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+  padding-right: 2rem;
+}
+
+.quote__text {
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.quote__author {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-style: normal;
+}
+
+.quote__refresh {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote__refresh:hover:not(:disabled) {
+  background-color: var(--border);
+  color: var(--text-primary);
+}
+
+.quote__refresh:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

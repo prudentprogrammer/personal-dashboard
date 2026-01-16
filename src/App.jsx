@@ -7,6 +7,7 @@ import TodoWidget from './components/TodoWidget'
 import HealthWidget from './components/HealthWidget'
 import BooksWidget from './components/BooksWidget'
 import PomodoroWidget from './components/PomodoroWidget'
+import QuoteWidget from './components/QuoteWidget'
 
 function App() {
   const { theme, toggleTheme } = useTheme()
@@ -34,6 +35,8 @@ function App() {
         <PomodoroWidget />
 
         <BooksWidget />
+
+        <QuoteWidget className="grid-span-2" />
       </main>
     </div>
   )
