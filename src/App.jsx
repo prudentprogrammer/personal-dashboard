@@ -2,6 +2,7 @@ import './App.css'
 import Widget from './components/Widget'
 import ClockWidget from './components/ClockWidget'
 import WeatherWidget from './components/WeatherWidget'
+import CalendarWidget from './components/CalendarWidget'
 
 function App() {
   return (
@@ -15,9 +16,7 @@ function App() {
 
         <WeatherWidget />
 
-        <Widget title="Calendar" size="medium" className="grid-span-2">
-          <p>Calendar widget coming soon</p>
-        </Widget>
+        <CalendarWidget className="grid-span-2" />
 
         <Widget title="Todo" size="large" className="grid-row-span-2">
           <p>Todo widget coming soon</p>
