@@ -8,6 +8,10 @@ import HealthWidget from './components/HealthWidget'
 import BooksWidget from './components/BooksWidget'
 import PomodoroWidget from './components/PomodoroWidget'
 import QuoteWidget from './components/QuoteWidget'
+import HabitsWidget from './components/HabitsWidget'
+import NotesWidget from './components/NotesWidget'
+import GitHubWidget from './components/GitHubWidget'
+import SpotifyWidget from './components/SpotifyWidget'
 
 function App() {
   const { theme, toggleTheme } = useTheme()
@@ -34,9 +38,17 @@ function App() {
 
         <PomodoroWidget />
 
+        <HabitsWidget />
+
+        <SpotifyWidget />
+
         <BooksWidget />
 
-        <QuoteWidget className="grid-span-2" />
+        <GitHubWidget />
+
+        <NotesWidget />
+
+        <QuoteWidget />
       </main>
     </div>
   )
