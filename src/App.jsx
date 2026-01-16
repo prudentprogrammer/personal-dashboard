@@ -1,5 +1,6 @@
 import './App.css'
 import Widget from './components/Widget'
+import ClockWidget from './components/ClockWidget'
 
 function App() {
   return (
@@ -9,9 +10,7 @@ function App() {
       </header>
 
       <main className="dashboard__grid">
-        <Widget title="Clock" size="medium">
-          <p>Clock widget coming soon</p>
-        </Widget>
+        <ClockWidget />
 
         <Widget title="Weather" size="medium">
           <p>Weather widget coming soon</p>
