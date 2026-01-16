@@ -216,8 +216,8 @@ async function fetchICal(url) {
     // Direct fetch failed, try CORS proxy
   }
 
-  // Use a CORS proxy
-  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+  // Use codetabs CORS proxy (more reliable for Google Calendar)
+  const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
   const response = await fetch(proxyUrl)
 
   if (!response.ok) {
