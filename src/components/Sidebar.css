@@ -1,0 +1,130 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--bg-widget);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem 1rem;
+  z-index: 50;
+}
+
+.sidebar__top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar__brand {
+  padding: 0 0.5rem;
+}
+
+.sidebar__logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+
+.sidebar__tagline {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.sidebar__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar__nav-item:hover {
+  background-color: var(--bg-secondary);
+}
+
+.sidebar__nav-item--active {
+  background-color: var(--accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb, 100, 108, 255), 0.3);
+}
+
+.sidebar__nav-item--active:hover {
+  background-color: var(--accent-hover);
+}
+
+.sidebar__nav-icon {
+  font-size: 1.125rem;
+}
+
+.sidebar__nav-text {
+  font-weight: 500;
+}
+
+.sidebar__bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+
+.sidebar__user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+.sidebar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.sidebar__user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__user-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sidebar__user-plan {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+/* Responsive - hide sidebar on smaller screens */
+@media (max-width: 1024px) {
+  .sidebar {
+    display: none;
+  }
+}

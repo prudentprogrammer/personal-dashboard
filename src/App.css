@@ -1,9 +1,23 @@
+/* Dashboard Layout with Sidebar */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
 .dashboard {
+  flex: 1;
   min-height: 100vh;
   padding: 1.5rem;
+  margin-left: 220px;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    margin-left: 0;
+  }
 }
 
 .dashboard__header {

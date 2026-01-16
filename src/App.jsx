@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import './App.css'
 import { useTheme } from './hooks/useTheme'
 import { useWeather } from './hooks/useWeather'
+import { useDashboardMode } from './hooks/useDashboardMode'
+import Sidebar from './components/Sidebar'
 import ClockWidget from './components/ClockWidget'
 import WeatherWidget from './components/WeatherWidget'
 import CalendarWidget from './components/CalendarWidget'
@@ -171,69 +173,61 @@ function App() {
   const { isFullscreen, toggleFullscreen } = useFullscreen()
   const { greeting, name, saveName, formattedDate } = useGreeting()
   const { weather, weatherIcons, convertTemp, unit } = useWeather()
+  const { mode, setMode, isWidgetVisible } = useDashboardMode()
 
   return (
-    <div className="dashboard">
-      <header className="dashboard__header">
-        <Greeting
-          greeting={greeting}
-          name={name}
-          saveName={saveName}
-          formattedDate={formattedDate}
-          weather={weather}
-          weatherIcons={weatherIcons}
-          convertTemp={convertTemp}
-          unit={unit}
-        />
-        <div className="dashboard__controls">
-          <button
-            className="dashboard__control-btn"
-            onClick={toggleFullscreen}
-            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-          >
-            {isFullscreen ? '⊙' : '⛶'}
-          </button>
-          <ThemePicker
-            currentTheme={currentTheme}
-            themes={themes}
-            onSelect={setThemeById}
-            isOpen={isThemePickerOpen}
-            onToggle={() => setIsThemePickerOpen(!isThemePickerOpen)}
+    <div className="dashboard-layout">
+      <Sidebar currentMode={mode} onModeChange={setMode} userName={name} />
+
+      <div className="dashboard">
+        <header className="dashboard__header">
+          <Greeting
+            greeting={greeting}
+            name={name}
+            saveName={saveName}
+            formattedDate={formattedDate}
+            weather={weather}
+            weatherIcons={weatherIcons}
+            convertTemp={convertTemp}
+            unit={unit}
           />
-        </div>
-      </header>
+          <div className="dashboard__controls">
+            <button
+              className="dashboard__control-btn"
+              onClick={toggleFullscreen}
+              title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            >
+              {isFullscreen ? '⊙' : '⛶'}
+            </button>
+            <ThemePicker
+              currentTheme={currentTheme}
+              themes={themes}
+              onSelect={setThemeById}
+              isOpen={isThemePickerOpen}
+              onToggle={() => setIsThemePickerOpen(!isThemePickerOpen)}
+            />
+          </div>
+        </header>
 
-      <main className="dashboard__grid">
-        <ClockWidget />
+        <main className="dashboard__grid">
+          {isWidgetVisible('clock') && <ClockWidget />}
+          {isWidgetVisible('weather') && <WeatherWidget />}
+          {isWidgetVisible('calendar') && <CalendarWidget className="grid-span-2" />}
+          {isWidgetVisible('todo') && <TodoWidget className="grid-row-span-2" />}
+          {isWidgetVisible('monarch') && <MonarchWidget className="grid-row-span-2" />}
+          {isWidgetVisible('health') && <HealthWidget />}
+          {isWidgetVisible('pomodoro') && <PomodoroWidget />}
+          {isWidgetVisible('habits') && <HabitsWidget />}
+          {isWidgetVisible('spotify') && <SpotifyWidget />}
+          {isWidgetVisible('books') && <BooksWidget />}
+          {isWidgetVisible('github') && <GitHubWidget />}
+          {isWidgetVisible('notes') && <NotesWidget />}
+          {isWidgetVisible('quote') && <QuoteWidget />}
+          {isWidgetVisible('countdown') && <CountdownWidget />}
+        </main>
 
-        <WeatherWidget />
-
-        <CalendarWidget className="grid-span-2" />
-
-        <TodoWidget className="grid-row-span-2" />
-
-        <MonarchWidget className="grid-row-span-2" />
-
-        <HealthWidget />
-
-        <PomodoroWidget />
-
-        <HabitsWidget />
-
-        <SpotifyWidget />
-
-        <BooksWidget />
-
-        <GitHubWidget />
-
-        <NotesWidget />
-
-        <QuoteWidget />
-
-        <CountdownWidget />
-      </main>
-
-      <StatCards />
+        <StatCards />
+      </div>
     </div>
   )
 }
