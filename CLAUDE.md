@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal dashboard web app built with React + Vite for displaying on a portable monitor. Features multiple widgets: Clock, Weather, Calendar, Todo, Health tracking, and Books.
+Personal dashboard web app built with React + Vite for displaying on a portable monitor. Features 12 widgets with dark/light theme support.
 
 ## Commands
 
@@ -24,22 +24,39 @@ src/
 
 ### Data Layer
 
-**Mock Data** (`src/data/mockData.js`): Centralized mock data for all widgets. Replace exports with API calls when ready.
+**Mock Data** (`src/data/mockData.js`): Centralized mock data for widgets that need it.
 
-**Custom Hooks** (`src/hooks/`): Each widget has a corresponding hook that handles data fetching, state, and business logic:
-- `useClock` - Time formatting, auto-updates every second
-- `useWeather` - Weather data with loading/error states
+**Custom Hooks** (`src/hooks/`): Each widget has a corresponding hook:
+- `useClock` - Live time with formatting
+- `useWeather` - Weather data (mock, ready for OpenWeatherMap)
 - `useCalendar` - Events filtered by today/upcoming
-- `useTodos` - CRUD operations for tasks
-- `useHealth` - Metrics with computed progress values
-- `useBooks` - Reading progress and yearly goals
+- `useTodos` - CRUD with localStorage persistence
+- `useHealth` - Health metrics with progress
+- `useBooks` - Reading progress and goals
+- `usePomodoro` - Timer with work/break modes
+- `useQuote` - Quotes with localStorage cache
+- `useHabits` - Habit tracking with streaks, localStorage
+- `useNotes` - Scratchpad with localStorage
+- `useGitHub` - Activity data (mock, ready for GitHub API)
+- `useSpotify` - Now playing (mock, ready for Spotify API)
+- `useTheme` - Dark/light theme toggle, localStorage
 
-### Widget System
+### Widgets
 
-Widgets in `src/components/` are pure presentation:
-- Use the `Widget` wrapper for consistent styling
-- Consume data from hooks
-- Accept `className` prop for grid positioning
+| Widget | Features |
+|--------|----------|
+| Clock | Live time, date |
+| Weather | Current + 5-day forecast |
+| Calendar | Today's + upcoming events |
+| Todo | Add/complete/delete, priorities |
+| Health | Steps, water, sleep, calories |
+| Books | Currently reading, yearly goal |
+| Pomodoro | 25/5/15 timer, session counter |
+| Quote | Daily quote, refresh button |
+| Habits | Daily habits with streaks |
+| Notes | Quick scratchpad |
+| GitHub | Contributions, recent activity |
+| Spotify | Now playing, controls |
 
 ### Layout
 
@@ -49,14 +66,23 @@ Widgets in `src/components/` are pure presentation:
 
 ### Styling
 
-- CSS variables in `src/index.css` (dark theme)
-- Variables: `--bg-primary`, `--bg-widget`, `--text-primary`, `--text-secondary`, `--accent`, `--border`
+- Theme toggle: `useTheme` hook, `data-theme` attribute on `<html>`
+- CSS variables in `src/index.css` for both dark and light themes
+- Key variables: `--bg-primary`, `--bg-widget`, `--text-primary`, `--text-secondary`, `--accent`, `--border`
 - BEM naming convention
+
+### Persistence
+
+Several hooks use localStorage:
+- `dashboard-todos` - Todo items
+- `dashboard-theme` - Theme preference
+- `dashboard-habits` - Habits and streaks
+- `dashboard-notes` - Notes content
+- `dashboard-quote` - Cached quote (24h)
 
 ## Adding New Widgets
 
-1. Add mock data to `src/data/mockData.js`
-2. Create hook `src/hooks/useYourData.js`
-3. Create component `src/components/YourWidget.jsx` and `.css`
-4. Import hook in widget, keep component purely presentational
-5. Add to `App.jsx` with grid class
+1. Create hook `src/hooks/useYourData.js` (add localStorage if needed)
+2. Create `src/components/YourWidget.jsx` and `.css`
+3. Import hook in widget, keep component purely presentational
+4. Add to `App.jsx` with optional grid class
