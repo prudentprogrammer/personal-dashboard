@@ -15,36 +15,48 @@ Personal dashboard web app built with React + Vite for displaying on a portable 
 
 ## Architecture
 
+```
+src/
+├── components/     # Presentation components (widgets)
+├── hooks/          # Data logic and state management
+└── data/           # Mock data (swap for API calls)
+```
+
+### Data Layer
+
+**Mock Data** (`src/data/mockData.js`): Centralized mock data for all widgets. Replace exports with API calls when ready.
+
+**Custom Hooks** (`src/hooks/`): Each widget has a corresponding hook that handles data fetching, state, and business logic:
+- `useClock` - Time formatting, auto-updates every second
+- `useWeather` - Weather data with loading/error states
+- `useCalendar` - Events filtered by today/upcoming
+- `useTodos` - CRUD operations for tasks
+- `useHealth` - Metrics with computed progress values
+- `useBooks` - Reading progress and yearly goals
+
 ### Widget System
 
-Each widget is a self-contained component in `src/components/`:
-- Uses the base `Widget` component wrapper for consistent styling
-- Accepts `className` prop for grid positioning (e.g., `grid-span-2`, `grid-row-span-2`)
-- Contains its own CSS file with BEM naming convention
+Widgets in `src/components/` are pure presentation:
+- Use the `Widget` wrapper for consistent styling
+- Consume data from hooks
+- Accept `className` prop for grid positioning
 
 ### Layout
 
-- 4-column CSS Grid layout defined in `App.css`
-- Responsive breakpoints: 1200px (2 columns), 768px (1 column)
-- Grid span classes: `grid-span-1` through `grid-span-4`, `grid-row-span-2`
+- 4-column CSS Grid in `App.css`
+- Responsive: 1200px (2 cols), 768px (1 col)
+- Grid classes: `grid-span-1` to `grid-span-4`, `grid-row-span-2`
 
 ### Styling
 
-- CSS variables for theming defined in `src/index.css` (dark theme by default)
-- Key variables: `--bg-primary`, `--bg-widget`, `--text-primary`, `--text-secondary`, `--accent`, `--border`
-- BEM naming convention for CSS classes
-
-### Data
-
-All widgets currently use mock data. Each widget has commented TODO sections for API integration:
-- Weather: Ready for weather API (OpenWeatherMap, etc.)
-- Calendar: Ready for calendar API (Google Calendar, etc.)
-- Health: Ready for fitness API (Apple Health, Fitbit, etc.)
-- Books: Ready for reading API (Goodreads, etc.)
+- CSS variables in `src/index.css` (dark theme)
+- Variables: `--bg-primary`, `--bg-widget`, `--text-primary`, `--text-secondary`, `--accent`, `--border`
+- BEM naming convention
 
 ## Adding New Widgets
 
-1. Create `src/components/YourWidget.jsx` and `YourWidget.css`
-2. Import and use the `Widget` wrapper component
-3. Add to `App.jsx` with appropriate grid class
-4. Follow existing patterns for mock data structure
+1. Add mock data to `src/data/mockData.js`
+2. Create hook `src/hooks/useYourData.js`
+3. Create component `src/components/YourWidget.jsx` and `.css`
+4. Import hook in widget, keep component purely presentational
+5. Add to `App.jsx` with grid class
