@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Monarch Money session (contains auth tokens)
+scripts/.monarch_session
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

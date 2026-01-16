@@ -1,0 +1,156 @@
+.monarch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.monarch--loading,
+.monarch--error {
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.monarch__net-worth {
+  text-align: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.monarch__net-worth-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.monarch__net-worth-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--success);
+  font-variant-numeric: tabular-nums;
+}
+
+.monarch__net-worth-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.monarch__assets {
+  color: var(--text-secondary);
+}
+
+.monarch__liabilities {
+  color: var(--text-secondary);
+}
+
+.monarch__cashflow {
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.monarch__cashflow-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.monarch__cashflow-label {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.monarch__cashflow-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.monarch__cashflow-value--income {
+  color: var(--success);
+}
+
+.monarch__cashflow-value--expense {
+  color: var(--danger);
+}
+
+.monarch__cashflow-value--savings {
+  color: var(--accent);
+}
+
+.monarch__accounts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.monarch__accounts-header {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.125rem;
+}
+
+.monarch__account {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+  transition: background-color 0.15s ease;
+}
+
+.monarch__account:hover {
+  background-color: var(--border);
+}
+
+.monarch__account-icon {
+  font-size: 1rem;
+}
+
+.monarch__account-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.monarch__account-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.monarch__account-institution {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.monarch__account-balance {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.monarch__account-balance--negative {
+  color: var(--danger);
+}
+
+.monarch__updated {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-align: center;
+}

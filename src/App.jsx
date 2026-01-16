@@ -13,6 +13,7 @@ import HabitsWidget from './components/HabitsWidget'
 import NotesWidget from './components/NotesWidget'
 import GitHubWidget from './components/GitHubWidget'
 import SpotifyWidget from './components/SpotifyWidget'
+import MonarchWidget from './components/MonarchWidget'
 
 function ThemePicker({ currentTheme, themes, onSelect, isOpen, onToggle }) {
   return (
@@ -71,6 +72,8 @@ function App() {
         <CalendarWidget className="grid-span-2" />
 
         <TodoWidget className="grid-row-span-2" />
+
+        <MonarchWidget className="grid-row-span-2" />
 
         <HealthWidget />
 
