@@ -1,4 +1,60 @@
 .dashboard {
   min-height: 100vh;
-  padding: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+/* Widget grid spans */
+.grid-span-1 { grid-column: span 1; }
+.grid-span-2 { grid-column: span 2; }
+.grid-span-3 { grid-column: span 3; }
+.grid-span-4 { grid-column: span 4; }
+
+.grid-row-span-2 { grid-row: span 2; }
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .dashboard__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-span-3,
+  .grid-span-4 {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 1rem;
+  }
+  .dashboard__grid {
+    grid-template-columns: 1fr;
+  }
+  .grid-span-2,
+  .grid-span-3,
+  .grid-span-4 {
+    grid-column: span 1;
+  }
 }
