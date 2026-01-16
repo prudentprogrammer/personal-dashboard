@@ -3,7 +3,20 @@ import { weatherData as mockWeatherData } from '../data/mockData'
 
 const STORAGE_KEY = 'dashboard-weather-config'
 const CACHE_KEY = 'dashboard-weather-cache'
+const UNIT_KEY = 'dashboard-weather-unit'
 const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
+
+function getStoredUnit() {
+  try {
+    return localStorage.getItem(UNIT_KEY) || 'F'
+  } catch {
+    return 'F'
+  }
+}
+
+function fahrenheitToCelsius(f) {
+  return Math.round((f - 32) * 5 / 9)
+}
 
 export const weatherIcons = {
   sunny: '☀️',
@@ -119,6 +132,19 @@ export function useWeather() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [isConfigured, setIsConfigured] = useState(false)
+  const [unit, setUnit] = useState(getStoredUnit)
+
+  const toggleUnit = useCallback(() => {
+    setUnit(prev => {
+      const newUnit = prev === 'F' ? 'C' : 'F'
+      localStorage.setItem(UNIT_KEY, newUnit)
+      return newUnit
+    })
+  }, [])
+
+  const convertTemp = useCallback((temp) => {
+    return unit === 'C' ? fahrenheitToCelsius(temp) : temp
+  }, [unit])
 
   const fetchWeather = useCallback(async () => {
     const config = getConfig()
@@ -186,5 +212,8 @@ export function useWeather() {
     weatherIcons,
     isConfigured,
     configure,
+    unit,
+    toggleUnit,
+    convertTemp,
   }
 }

@@ -62,7 +62,7 @@ function WeatherConfig({ onConfigure }) {
 }
 
 function WeatherWidget() {
-  const { weather, loading, error, weatherIcons, isConfigured, configure } = useWeather()
+  const { weather, loading, error, weatherIcons, isConfigured, configure, unit, toggleUnit, convertTemp } = useWeather()
   const [showConfig, setShowConfig] = useState(false)
 
   if (loading) {
@@ -83,13 +83,22 @@ function WeatherWidget() {
       title="Weather"
       size="medium"
       headerAction={
-        <button
-          className="widget__header-btn"
-          onClick={() => setShowConfig(!showConfig)}
-          title="Configure weather"
-        >
-          {isConfigured ? '✓' : '⚙️'}
-        </button>
+        <div className="weather__header-actions">
+          <button
+            className="widget__header-btn"
+            onClick={toggleUnit}
+            title={`Switch to °${unit === 'F' ? 'C' : 'F'}`}
+          >
+            °{unit}
+          </button>
+          <button
+            className="widget__header-btn"
+            onClick={() => setShowConfig(!showConfig)}
+            title="Configure weather"
+          >
+            {isConfigured ? '✓' : '⚙️'}
+          </button>
+        </div>
       }
     >
       {showConfig ? (
@@ -101,11 +110,11 @@ function WeatherWidget() {
             <div className="weather__icon">
               {weatherIcons[weather.current.condition]}
             </div>
-            <div className="weather__temp">{weather.current.temp}°</div>
+            <div className="weather__temp">{convertTemp(weather.current.temp)}°</div>
             <div className="weather__details">
               <div className="weather__location">{weather.location}</div>
               <div className="weather__meta">
-                Feels like {weather.current.feelsLike}° • {weather.current.humidity}% humidity
+                Feels like {convertTemp(weather.current.feelsLike)}° • {weather.current.humidity}% humidity
               </div>
             </div>
           </div>
@@ -118,8 +127,8 @@ function WeatherWidget() {
                   {weatherIcons[day.condition]}
                 </span>
                 <span className="weather__forecast-temps">
-                  <span className="weather__forecast-high">{day.high}°</span>
-                  <span className="weather__forecast-low">{day.low}°</span>
+                  <span className="weather__forecast-high">{convertTemp(day.high)}°</span>
+                  <span className="weather__forecast-low">{convertTemp(day.low)}°</span>
                 </span>
               </div>
             ))}
