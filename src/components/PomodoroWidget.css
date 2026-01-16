@@ -1,0 +1,117 @@
+.pomodoro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.pomodoro__modes {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pomodoro__mode {
+  padding: 0.375rem 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pomodoro__mode:hover {
+  background-color: var(--border);
+}
+
+.pomodoro__mode--active {
+  background-color: var(--accent);
+  color: white;
+}
+
+.pomodoro__timer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pomodoro__progress {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pomodoro__progress-bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 6;
+}
+
+.pomodoro__progress-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.pomodoro__time {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.pomodoro__controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pomodoro__btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pomodoro__btn--start {
+  background-color: var(--accent);
+  color: white;
+}
+
+.pomodoro__btn--start:hover {
+  background-color: var(--accent-hover);
+}
+
+.pomodoro__btn--pause {
+  background-color: var(--warning);
+  color: #1a1a1a;
+}
+
+.pomodoro__btn--pause:hover {
+  opacity: 0.9;
+}
+
+.pomodoro__btn--reset {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.pomodoro__btn--reset:hover {
+  background-color: var(--border);
+}
+
+.pomodoro__sessions {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
